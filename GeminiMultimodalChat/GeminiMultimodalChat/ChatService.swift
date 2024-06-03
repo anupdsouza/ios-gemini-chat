@@ -27,7 +27,7 @@ class ChatService {
         do {
             let chatModel = imageData.isEmpty ? proModel : proVisionModel
             
-            var images = [PartsRepresentable]()
+            var images = [any ThrowingPartsRepresentable]()
             for data in imageData {
                 // compressing the data as max size allowed for images is approx 4MB
                 if let compressedData = UIImage(data: data)?.jpegData(compressionQuality: 0.1) {
