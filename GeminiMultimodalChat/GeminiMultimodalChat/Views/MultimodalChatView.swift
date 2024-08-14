@@ -103,7 +103,7 @@ struct MultimodalChatView: View {
                         selectedMedia.removeAll()
                         for item in photoPickerItems {
                             do {
-                                let (mimeType, data, thumbnail) = try await ThumbnailService().processPhotoPickerItem(for: item)
+                                let (mimeType, data, thumbnail) = try await MediaService().processPhotoPickerItem(for: item)
                                 selectedMedia.append(.init(mimeType: mimeType, data: data, thumbnail: thumbnail))
                             } catch {
                                 print(error.localizedDescription)
@@ -123,7 +123,7 @@ struct MultimodalChatView: View {
                         Task {
                             for url in urls {
                                 do {
-                                    let (mimeType, data, thumbnail) = try await ThumbnailService().processDocumentItem(for: url)
+                                    let (mimeType, data, thumbnail) = try await MediaService().processDocumentItem(for: url)
                                     selectedMedia.append(.init(mimeType: mimeType, data: data, thumbnail: thumbnail))
                                 } catch {
                                     print(error.localizedDescription)

@@ -1,5 +1,5 @@
 //
-//  ThumbnailService.swift
+//  MediaService.swift
 //  GeminiMultimodalChat
 //
 //  Created by Anup D'Souza on 16/05/24.
@@ -15,7 +15,7 @@ import PhotosUI
 import AVFoundation
 import PDFKit
 
-struct ThumbnailService {
+struct MediaService {
     private let largestImageDimension = 768.0
     
     func processPhotoPickerItem(for item: PhotosPickerItem) async throws -> (String, Data, UIImage) {
@@ -41,7 +41,7 @@ struct ThumbnailService {
         }
     }
     
-    func generateVideoThumbnail(for data: Data, mimeType: String) async throws -> UIImage {
+    private func generateVideoThumbnail(for data: Data, mimeType: String) async throws -> UIImage {
         let fileExtension: String
         if mimeType == "video/mp4" {
             fileExtension = "mp4"
@@ -63,7 +63,7 @@ struct ThumbnailService {
         return uiImage
     }
     
-    func generateImageThumbnail(for data: Data) async throws -> (Data, UIImage) {
+    private func generateImageThumbnail(for data: Data) async throws -> (Data, UIImage) {
         guard let image = UIImage(data: data) else {
             throw NSError(domain: "DataError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Failed to create UIImage from data"])
         }
@@ -90,7 +90,7 @@ struct ThumbnailService {
         switch readResult {
         case .success(let data):
             if url.pathExtension.lowercased() == "pdf" {
-                let thumbnail = try await ThumbnailService().generatePDFThumbnail(for: url)
+                let thumbnail = try await MediaService().generatePDFThumbnail(for: url)
                 return ("application/pdf", data, thumbnail)
             } else if url.pathExtension.lowercased() == "txt" {
                 let thumbnail = UIImage(named: "doc-icon")!
@@ -113,7 +113,7 @@ struct ThumbnailService {
         return Result { try Data(contentsOf: url) }
     }
 
-    func generatePDFThumbnail(for url: URL) async throws -> UIImage {
+    private func generatePDFThumbnail(for url: URL) async throws -> UIImage {
         guard let document = PDFDocument(url: url), let page = document.page(at: 0) else {
             throw NSError(domain: "ThumbnailServiceError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Failed to load PDF document"])
         }
