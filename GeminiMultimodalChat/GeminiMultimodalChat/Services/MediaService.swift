@@ -15,6 +15,7 @@ import SwiftUI
 import PhotosUI
 import AVFoundation
 import PDFKit
+import UIKit
 
 struct MediaService {
     private let largestImageDimension = 768.0
@@ -86,15 +87,20 @@ struct MediaService {
         return (jpegData, finalImage)
     }
 
-    func processDocumentItem(for url: URL) async throws -> (String, Data, UIImage) {
+    @MainActor
+    func processDocumentItem(for url: URL) throws -> (String, Data, UIImage) {
         let readResult = readFileData(from: url)
         switch readResult {
         case .success(let data):
             if url.pathExtension.lowercased() == "pdf" {
-                let thumbnail = try await MediaService().generatePDFThumbnail(for: url)
+                let thumbnail = try MediaService().generatePDFThumbnail(for: url)
                 return ("application/pdf", data, thumbnail)
             } else if url.pathExtension.lowercased() == "txt" {
-                let thumbnail = UIImage(named: "doc-icon")!
+                guard let limitedString = String(data: data, encoding: .utf8)?.prefix(50) else {
+                    let thumbnail = UIImage(named: "doc-icon")!
+                    return ("text/plain", data, thumbnail)
+                }
+                let thumbnail = try MediaService().generateTextThumbnail(for: String(limitedString))
                 return ("text/plain", data, thumbnail)
             } else {
                 throw NSError(domain: "UnsupportedTypeError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Unsupported file type"])
@@ -114,7 +120,7 @@ struct MediaService {
         return Result { try Data(contentsOf: url) }
     }
 
-    private func generatePDFThumbnail(for url: URL) async throws -> UIImage {
+    private func generatePDFThumbnail(for url: URL) throws -> UIImage {
         guard let document = PDFDocument(url: url), let page = document.page(at: 0) else {
             throw NSError(domain: "ThumbnailServiceError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Failed to load PDF document"])
         }
@@ -134,6 +140,30 @@ struct MediaService {
         return thumbnail
     }
 
+    private func generateTextThumbnail(for string: String) throws -> UIImage {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 150, height: 200)
+        label.numberOfLines = 0
+        label.text = string
+        
+        UIGraphicsBeginImageContext(label.frame.size)
+        defer {
+            UIGraphicsEndImageContext()
+        }
+        
+        guard let currentContext = UIGraphicsGetCurrentContext() else {
+            throw NSError(domain: "generateTextThumbnail", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create graphics context"])
+        }
+        
+        UIColor.white.setFill()
+        currentContext.fill(label.frame)
+        label.layer.render(in: currentContext)
+        guard let nameImage = UIGraphicsGetImageFromCurrentImageContext() else {
+            throw NSError(domain: "generateTextThumbnail", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to generate text thumbnail"])
+        }
+        
+        return nameImage
+    }
 }
 
 private extension CGSize {

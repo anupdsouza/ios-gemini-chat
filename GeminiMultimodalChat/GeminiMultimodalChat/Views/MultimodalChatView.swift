@@ -120,17 +120,14 @@ struct MultimodalChatView: View {
                     
                     switch result {
                     case .success(let urls):
-                        Task {
-                            for url in urls {
-                                do {
-                                    let (mimeType, data, thumbnail) = try await MediaService().processDocumentItem(for: url)
-                                    selectedMedia.append(.init(mimeType: mimeType, data: data, thumbnail: thumbnail))
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
+                        for url in urls {
+                            do {
+                                let (mimeType, data, thumbnail) = try MediaService().processDocumentItem(for: url)
+                                selectedMedia.append(.init(mimeType: mimeType, data: data, thumbnail: thumbnail))
+                            } catch {
+                                print(error.localizedDescription)
                             }
                         }
-                        
                     case .failure(let error):
                         print("Failed to import file(s): \(error.localizedDescription)")
                     }
