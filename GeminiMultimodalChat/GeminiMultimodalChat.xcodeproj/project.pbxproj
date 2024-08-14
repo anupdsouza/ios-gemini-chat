@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4BAB5392C69EDB400DAB745 /* ThumbnailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BAB5382C69EDB400DAB745 /* ThumbnailService.swift */; };
 		E4C00EE92B45605D00D402DE /* GeminiMultimodalChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C00EE82B45605D00D402DE /* GeminiMultimodalChatApp.swift */; };
 		E4C00EEB2B45605D00D402DE /* MultimodalChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */; };
 		E4C00EED2B45605F00D402DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4C00EEC2B45605F00D402DE /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E4BAB5382C69EDB400DAB745 /* ThumbnailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailService.swift; sourceTree = "<group>"; };
 		E4C00EE52B45605D00D402DE /* GeminiMultimodalChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeminiMultimodalChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C00EE82B45605D00D402DE /* GeminiMultimodalChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiMultimodalChatApp.swift; sourceTree = "<group>"; };
 		E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultimodalChatView.swift; sourceTree = "<group>"; };
@@ -46,6 +48,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E4BAB5372C69ECBE00DAB745 /* ChatShapes */ = {
+			isa = PBXGroup;
+			children = (
+				E4C00EF72B4560A900D402DE /* ChatBubble.swift */,
+				E4C00EF62B4560A900D402DE /* ChatBubbleShape.swift */,
+			);
+			path = ChatShapes;
+			sourceTree = "<group>";
+		};
+		E4BAB53A2C69EDBA00DAB745 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E4C00EF92B4560A900D402DE /* ChatService.swift */,
+				E4BAB5382C69EDB400DAB745 /* ThumbnailService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E4BAB53B2C69EDC400DAB745 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E4C00EF82B4560A900D402DE /* Chat.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E4BAB53C2C69EDD000DAB745 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */,
+				E4BAB5372C69ECBE00DAB745 /* ChatShapes */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E4C00EDC2B45605C00D402DE = {
 			isa = PBXGroup;
 			children = (
@@ -66,11 +103,9 @@
 			isa = PBXGroup;
 			children = (
 				E4C00EE82B45605D00D402DE /* GeminiMultimodalChatApp.swift */,
-				E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */,
-				E4C00EF82B4560A900D402DE /* Chat.swift */,
-				E4C00EF92B4560A900D402DE /* ChatService.swift */,
-				E4C00EF72B4560A900D402DE /* ChatBubble.swift */,
-				E4C00EF62B4560A900D402DE /* ChatBubbleShape.swift */,
+				E4BAB53C2C69EDD000DAB745 /* Views */,
+				E4BAB53B2C69EDC400DAB745 /* Model */,
+				E4BAB53A2C69EDBA00DAB745 /* Services */,
 				E4C00EFE2B4560CB00D402DE /* Config */,
 				E4C00EEC2B45605F00D402DE /* Assets.xcassets */,
 				E4C00EEE2B45605F00D402DE /* Preview Content */,
@@ -178,6 +213,7 @@
 				E4C00EE92B45605D00D402DE /* GeminiMultimodalChatApp.swift in Sources */,
 				E4C00EFC2B4560A900D402DE /* Chat.swift in Sources */,
 				E4C00EFB2B4560A900D402DE /* ChatBubble.swift in Sources */,
+				E4BAB5392C69EDB400DAB745 /* ThumbnailService.swift in Sources */,
 				E4C00EFD2B4560A900D402DE /* ChatService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
