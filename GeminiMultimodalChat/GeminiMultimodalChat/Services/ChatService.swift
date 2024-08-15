@@ -29,9 +29,7 @@ class ChatService {
         do {
             var chatMedia = [any ThrowingPartsRepresentable]()
             for mediaItem in media {
-                if mediaItem.mimeType == "video/mp4" {
-                    chatMedia.append(ModelContent.Part.data(mimetype: mediaItem.mimeType, mediaItem.data))
-                } else if mediaItem.mimeType == "text/plain" || mediaItem.mimeType == "application/pdf" {
+                if mediaItem.mimeType == "video/mp4" || mediaItem.mimeType == "text/plain" || mediaItem.mimeType == "application/pdf" {
                     chatMedia.append(ModelContent.Part.data(mimetype: mediaItem.mimeType, mediaItem.data))
                 }
                 else {

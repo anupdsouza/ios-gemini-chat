@@ -176,9 +176,6 @@ struct MultimodalChatView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 150)
-                                .background {
-                                    Color.red
-                                }
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                                 .overlay(alignment: .topLeading) {
                                     Image(systemName: mediaItem.overlayIconName)
