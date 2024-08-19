@@ -83,16 +83,16 @@ struct MultimodalChatView: View {
                             .frame(width: 40, height: 25)
                     }
                 }
+                .disabled(chatService.loadingResponse)
                 .confirmationDialog("What would you like to attach?",
                                     isPresented: $showAttachmentOptions,
                                     titleVisibility: .visible) {
-                    
-                    Button("Images") { showPhotoPicker.toggle() }
-
-                    Button("Videos") { showPhotoPicker.toggle() }
-                    
-                    Button("Documents") { showFilePicker.toggle() }
-                    
+                    Button("Images / Videos") {
+                        showPhotoPicker.toggle()
+                    }
+                    Button("Documents") {
+                        showFilePicker.toggle()
+                    }
                 }.photosPicker(isPresented: $showPhotoPicker,
                                selection: $photoPickerItems,
                                maxSelectionCount: 2,
