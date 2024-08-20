@@ -20,13 +20,14 @@ class ChatService {
     private(set) var messages = [ChatMessage]()
     private(set) var loadingResponse = false
     
+    @MainActor
     func sendMessage(message: String, media: [Media]) async {
-        loadingResponse = true
-        
-        messages.append(.init(role: .user, message: message, media: media))
-        messages.append(.init(role: .aiModel, message: "", media: nil))
-        
         do {
+            loadingResponse = true
+            
+            messages.append(.init(role: .user, message: message, media: media))
+            messages.append(.init(role: .aiModel, message: "", media: nil))
+            
             var chatMedia = [any ThrowingPartsRepresentable]()
             for mediaItem in media {
                 if mediaItem.mimeType == "video/mp4" || mediaItem.mimeType == "text/plain" || mediaItem.mimeType == "application/pdf" {
@@ -37,17 +38,16 @@ class ChatService {
                 }
             }
             
-            let response = try await model.generateContent(message, chatMedia)
-            
-            loadingResponse = false
-            
-            guard let text = response.text else {
-                messages.append(.init(role: .aiModel, message: "Something went wrong, please try again", media: nil))
-                return
+            let responseStream = model.generateContentStream(message, chatMedia)
+            for try await response in responseStream {
+                guard let text = response.text else {
+                    return
+                }
+                
+                let lastChatMessageIndex = messages.count - 1
+                messages[lastChatMessageIndex].message += text
             }
-            
-            messages.removeLast()
-            messages.append(.init(role: .aiModel, message: text, media: nil))
+            loadingResponse = false
         }
         catch {
             loadingResponse = false

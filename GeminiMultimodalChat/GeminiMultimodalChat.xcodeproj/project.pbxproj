@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E44743F02C74653C00372C81 /* ChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44743EF2C74653C00372C81 /* ChatMessageView.swift */; };
 		E4BAB5392C69EDB400DAB745 /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BAB5382C69EDB400DAB745 /* MediaService.swift */; };
 		E4C00EE92B45605D00D402DE /* GeminiMultimodalChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C00EE82B45605D00D402DE /* GeminiMultimodalChatApp.swift */; };
 		E4C00EEB2B45605D00D402DE /* MultimodalChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E44743EF2C74653C00372C81 /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
 		E4BAB5382C69EDB400DAB745 /* MediaService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		E4C00EE52B45605D00D402DE /* GeminiMultimodalChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeminiMultimodalChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C00EE82B45605D00D402DE /* GeminiMultimodalChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiMultimodalChatApp.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				E4C00EEA2B45605D00D402DE /* MultimodalChatView.swift */,
+				E44743EF2C74653C00372C81 /* ChatMessageView.swift */,
 				E4BAB5372C69ECBE00DAB745 /* ChatShapes */,
 			);
 			path = Views;
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E44743F02C74653C00372C81 /* ChatMessageView.swift in Sources */,
 				E4C00EEB2B45605D00D402DE /* MultimodalChatView.swift in Sources */,
 				E4C00F022B4560CB00D402DE /* APIKey.swift in Sources */,
 				E4C00EFA2B4560A900D402DE /* ChatBubbleShape.swift in Sources */,

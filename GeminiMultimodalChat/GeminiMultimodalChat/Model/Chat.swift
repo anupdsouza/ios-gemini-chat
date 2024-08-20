@@ -38,7 +38,7 @@ struct Media {
 
 struct ChatMessage: Identifiable, Equatable {
     static func == (lhs: ChatMessage, rhs: ChatMessage) -> Bool {
-        lhs.id == rhs.id
+        return lhs.id == rhs.id && lhs.role == rhs.role && lhs.message == rhs.message
     }
     
     let id = UUID().uuidString

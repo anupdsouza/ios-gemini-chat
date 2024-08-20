@@ -35,19 +35,16 @@ struct MultimodalChatView: View {
             // MARK: Chat message list
             ScrollViewReader(content: { proxy in
                 ScrollView {
-                    ForEach(chatService.messages) { message in
+                    ForEach(chatService.messages, id:\.self.id) { message in
                         // MARK: Chat message view
-                        chatMessageView(message)
-                            .id(message.id)
+                        ChatMessageView(chatMessage: message)
                     }
                 }
-                .onChange(of: chatService.messages) { oldValue, newValue in
-                    guard let recentMessage = chatService.messages.last else { return }
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            proxy.scrollTo(recentMessage.id, anchor: .bottom)
-                        }
-                    }
+                .onChange(of: chatService.messages) {
+                    scrollToBottom(proxy: proxy)
+                }
+                .onChange(of: chatService.loadingResponse) {
+                    scrollToBottom(proxy: proxy)
                 }
             })
             
@@ -160,46 +157,6 @@ struct MultimodalChatView: View {
             Color.black.ignoresSafeArea()
         }
     }
-
-    // MARK: Chat media
-    @ViewBuilder private func chatMessageView(_ message: ChatMessage) -> some View {
-        if let media = message.media, media.isEmpty == false {
-            GeometryReader(content: { geometry in
-                ScrollView(.horizontal) {
-                    HStack(spacing: 10, content: {
-                        Spacer()
-                            .frame(width: spacerWidth(for: media, geometry: geometry))
-                        
-                        ForEach(0..<media.count, id: \.self) { index in
-                            let mediaItem = media[index]
-                            Image(uiImage: mediaItem.thumbnail)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 150)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                .overlay(alignment: .topLeading) {
-                                    Image(systemName: mediaItem.overlayIconName)
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                        .shadow(color: .black, radius: 10)
-                                        .padding(8)
-                                }
-                        }
-                    })
-                }
-            })
-            .frame(height: 150)
-        }
-        
-        // MARK: Chat bubble
-        ChatBubble(direction: message.role == .aiModel ? .left : .right) {
-            Text(message.message)
-                .font(.title3)
-                .padding(.all, 20)
-                .foregroundStyle(.white)
-                .background(message.role == .aiModel ? Color.blue : Color.green)
-        }
-    }
     
     private func sendMessage() {
         guard !textInput.isEmpty else {
@@ -214,14 +171,13 @@ struct MultimodalChatView: View {
         }
     }
     
-    private func spacerWidth(for media: [Media], geometry: GeometryProxy) -> CGFloat {
-        var totalWidth: CGFloat = 0
-        for mediaItem in media {
-            let scaledWidth = mediaItem.thumbnail.size.width * (150/mediaItem.thumbnail.size.height)
-            totalWidth += scaledWidth + 20
+    private func scrollToBottom(proxy: ScrollViewProxy) {
+        guard let recentMessage = chatService.messages.last else { return }
+        DispatchQueue.main.async {
+            withAnimation {
+                proxy.scrollTo(recentMessage.id, anchor: .bottom)
+            }
         }
-        
-        return totalWidth < geometry.size.width ? geometry.size.width - totalWidth : 0
     }
 }
 
