@@ -84,7 +84,7 @@ struct MultimodalChatView: View {
                 .confirmationDialog("What would you like to attach?",
                                     isPresented: $showAttachmentOptions,
                                     titleVisibility: .visible) {
-                    Button("Images / Videos") {
+                    Button("Images") {
                         showPhotoPicker.toggle()
                     }
                     Button("Documents") {
@@ -93,7 +93,7 @@ struct MultimodalChatView: View {
                 }.photosPicker(isPresented: $showPhotoPicker,
                                selection: $photoPickerItems,
                                maxSelectionCount: 2,
-                               matching: .any(of: [.images, .videos]))
+                               matching: .any(of: [.images]))
                 .onChange(of: photoPickerItems) { oldValue, newValue in
                     Task {
                         loadingMedia.toggle()
